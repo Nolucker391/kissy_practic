@@ -33,9 +33,9 @@ with open('result_prog.txt', 'w') as file:
     p_ = [p for i in range(6)]
     psum = sum(p_)
     Mt = p
-    I_k = [18579.6, 20605.7, -31302.2, 28228.5, 64033.6, 71581]
-    S_k = [47.5422, 66.9743, 67.1675, 60.4515, 38.3377, 49.5693]
-    Cp_k = [8.71414, 9.37875, 13.3858, 8.74102, 4.96821, 4.98706]
+    I_values = [18579.6, 20605.7, -31302.2, 28228.5, 64033.6, 71581]
+    S_values = [47.5422, 66.9743, 67.1675, 60.4515, 38.3377, 49.5693]
+    Cp_values = [8.71414, 9.37875, 13.3858, 8.74102, 4.96821, 4.98706]
     aij_ = [[2, 0, 2, 1, 1, 0],
             [0, 2, 1, 1, 0, 1]]
 
@@ -49,11 +49,11 @@ with open('result_prog.txt', 'w') as file:
 
     ko = ['H2', 'O2', 'H2O', 'OH', 'H', 'O']
     for i in range(6):
-        print('I_', ko[i], '=', I_k[i], 'ккал/кмоль', file=file)
+        print('I_', ko[i], '=', I_values[i], 'ккал/кмоль', file=file)
     for i in range(6):
-        print('S_', ko[i], '=', S_k[i], 'ккал/кмоль/К', file=file)
+        print('S_', ko[i], '=', S_values[i], 'ккал/кмоль/К', file=file)
     for i in range(6):
-        print('Cp_', ko[i], '=', Cp_k[i], 'ккал/кмоль/К', file=file)
+        print('Cp_', ko[i], '=', Cp_values[i], 'ккал/кмоль/К', file=file)
     strochka()
 
     print('Результаты расчета:', file=file)
@@ -64,16 +64,16 @@ with open('result_prog.txt', 'w') as file:
         sum1 = 0
         sum2 = 0
         for i in range(2):
-            sum1 += aij_[i][j] * S_k[i + 4]
-            sum2 += aij_[i][j] * I_k[i + 4]
-            k_k[j] = ((sum1 - S_k[j]) / ro - (sum2 - I_k[j]) / ro / t) / 2.31
+            sum1 += aij_[i][j] * S_values[i + 4]
+            sum2 += aij_[i][j] * I_values[i + 4]
+            k_k[j] = ((sum1 - S_values[j]) / ro - (sum2 - I_values[j]) / ro / t) / 2.31
 
     k_kk = [0 for i in range(4)]
     for j in range(4):
         sum3 = 0
         for i in range(2):
-            sum3 += aij_[i][j] * I_k[i + 4]
-            k_kk[j] = ((sum3 - I_k[j]) / ro / t)
+            sum3 += aij_[i][j] * I_values[i + 4]
+            k_kk[j] = ((sum3 - I_values[j]) / ro / t)
 
     while True:
         p_sum = 0
@@ -182,11 +182,11 @@ with open('result_prog.txt', 'w') as file:
     mut = 1.008 * 2 + k * 16
     sum5 = 0
     for j in range(6):
-        sum5 += I_k[j] * p_[j]
+        sum5 += I_values[j] * p_[j]
     I = 4184 * sum5 / Mt / mut
     sum6 = 0
     for j in range(6):
-        sum6 += S_k[j] * p_[j]
+        sum6 += S_values[j] * p_[j]
     S = 4184 * sum6 / Mt / mut
     mu = Mt * mut / p
     r = 8314 / mu
@@ -194,13 +194,13 @@ with open('result_prog.txt', 'w') as file:
     beta = (1 / p) * (solution2[6])
     sum7 = 0
     for j in range(6):
-        sum7 += Cp_k[j] * p_[j]
+        sum7 += Cp_values[j] * p_[j]
     cpf = 4184 * sum7 / Mt / mut
     kf = 1 / (1 - (r / cpf))
     af = (t * r * kf) ** 0.5
     sum8 = 0
     for j in range(6):
-        sum8 += I_k[j] * p_[j] * solution1[j]
+        sum8 += I_values[j] * p_[j] * solution1[j]
     cpe = cpf + (1 / t) * (4184 * sum8 / Mt / mut - I * solution1[6])
     kr = cpe / (cpe - ((r * (1 - solution1[6]) ** 2) / solution2[6]))
     a = (t * r * kr / solution2[6]) ** 0.5
